@@ -1,3 +1,12 @@
 import express from "express";
 
-console.log("메롱");
+const PORT = 4000;
+
+const app = express();
+
+app.get("/", () => console.log("Somebody is trying to go home."));
+
+const handleListening = () =>
+    console.log(`✅Server listenting on port http://localhost:${PORT} 🚀`);
+
+app.listen(PORT, handleListening);
