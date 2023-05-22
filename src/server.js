@@ -4,7 +4,16 @@ const PORT = 4000;
 
 const app = express();
 
-app.get("/", () => console.log("Somebody is trying to go home."));
+const handleHome = (req, res) => {
+    return res.end();
+};
+
+const handleLogin = (req, res) => {
+    return res.send("Login here.");
+};
+
+app.get("/", handleHome);
+app.get("/login", handleLogin);
 
 const handleListening = () =>
     console.log(`✅Server listenting on port http://localhost:${PORT} 🚀`);
