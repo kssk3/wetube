@@ -7,7 +7,7 @@
         "url": "git+https://github.com/kssk3/wetube.git"
     },
     "scripts": {
-        "dev": "nodemon --exec babel-node src/server.js"
+        "dev": "nodemon --exec babel-node src/init.js"
     },
     "author": "Soosung Kang<kss8014@daum.net>",
     "license": "MIT",
