@@ -1,16 +1,24 @@
 import Video from "../models/Video";
 
-export const home = (req, res) => {
-    console.log("Start");
-    Video.find({})
-        .exec()
-        .then((videos) => {
-            console.log("Finished");
-            res.render("home", { pageTitle: "Home", videos });
-        })
-        .catch((error) => {});
-    console.log("I finish first");
+/* 콜백함수
+ Video.find({}, (error, videos) => {
+    if(error){
+        return res.render("server-error")
+    }
+    return res.render("home", { pageTitle: "Home", videos });
+ });
+
+*/
+
+export const home = async (req, res) => {
+    try {
+        const videos = await Video.find({});
+        return res.render("home", { pageTitle: "Home", videos });
+    } catch (error) {
+        return res.render("server-error", { error });
+    }
 };
+
 export const watch = (req, res) => {
     const { id } = req.params;
 
@@ -39,6 +47,17 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = (req, res) => {
-    const { title } = req.body;
+    const { title, description, hashtags } = req.body;
+    const video = new Video({
+        title,
+        description,
+        createdAt: Date.now(),
+        hashtags: hashtags.split(",").map((word) => `#${word}`),
+        meta: {
+            viewsL: 0,
+            rating: 0,
+        },
+    });
+    console.log(video);
     return res.redirect("/");
 };
