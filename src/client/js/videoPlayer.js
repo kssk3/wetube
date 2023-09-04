@@ -4,7 +4,7 @@ const playBtnIcon = playBtn.querySelector("i");
 const muteBtn = document.getElementById("mute");
 const muteBtnIcon = muteBtn.querySelector("i");
 const volumeRange = document.getElementById("volume");
-const currentTime = document.getElementById("currentTime");
+const currenTime = document.getElementById("currenTime");
 const totalTime = document.getElementById("totalTime");
 const timeline = document.getElementById("timeline");
 const fullScreenBtn = document.getElementById("fullScreen");
@@ -61,7 +61,7 @@ const handleLoadedMetadata = () => {
 };
 
 const handleTimeUpdate = () => {
-    currentTime.innerText = formatTime(Math.floor(video.currentTime));
+    currenTime.innerText = formatTime(Math.floor(video.currentTime));
     timeline.value = Math.floor(video.currentTime);
 };
 
@@ -102,13 +102,33 @@ const handleMouseLeave = () => {
     controlsTimeOut = setTimeout(hideControls, 3000);
 };
 
+const handleKeydown = (event) => {
+    if (event.code === "Space") {
+        handlePlayClick();
+        event.preventDefault();
+    }
+};
+
+const handleVideoClickPlay = () => {
+    handlePlayClick();
+};
+
+const handleEnded = async () => {
+    const { id } = videoContainer.dataset;
+    await fetch(`/api/videos/${id}/view`, {
+        method: "POST",
+    });
+};
+
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadeddata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 video.addEventListener("click", handlePlayClick);
+video.addEventListener("ended", handleEnded);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
 timeline.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handleFullScreen);
+document.addEventListener("keydown", handleKeydown);
