@@ -16,13 +16,14 @@ const handleDownload = () => {
 const handleStop = () => {
     startBtn.innerText = "Download Recording";
     startBtn.removeEventListener("click", handleStop);
-    startBtn.addEventListener("click", handleStart);
+    startBtn.addEventListener("click", handleDownload);
     recorder.stop();
 };
 const handleStart = () => {
     startBtn.innerText = "Stop Recording";
     startBtn.removeEventListener("click", handleStart);
     startBtn.addEventListener("click", handleStop);
+    ///
     recorder = new MediaRecorder(stream, { mineType: "video/webm" });
     recorder.ondataavailable = (event) => {
         videoFile = URL.createObjectURL(event.data);
