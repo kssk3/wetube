@@ -23,7 +23,7 @@ const downloadFile = (fileUrl, fileName) => {
 const handleDownload = async () => {
     actionBtn.removeEventListener("click", handleDownload);
 
-    actionBtn.innerText = "Transcoding....";
+    actionBtn.innerText = "Transcoding...";
 
     actionBtn.disabled = true;
 
@@ -53,7 +53,7 @@ const handleDownload = async () => {
     const mp4Url = URL.createObjectURL(mp4Blob);
     const thumbUrl = URL.createObjectURL(thumbBlob);
 
-    downloadFile(mp4Url, "My Recording.mp4");
+    downloadFile(mp4Url, "MyRecording.mp4");
     downloadFile(thumbUrl, "MyThumbnail.jpg");
 
     ffmpeg.FS("unlink", files.input);
@@ -69,32 +69,34 @@ const handleDownload = async () => {
     actionBtn.addEventListener("click", handleStart);
 };
 
-const handleStop = () => {
-    actionBtn.innerText = "Download Recording";
-    actionBtn.removeEventListener("click", handleStop);
-    actionBtn.addEventListener("click", handleDownload);
-    recorder.stop();
-};
 const handleStart = () => {
-    actionBtn.innerText = "Stop Recording";
+    actionBtn.innerText = "Recording";
+    actionBtn.disabled = true;
     actionBtn.removeEventListener("click", handleStart);
-    actionBtn.addEventListener("click", handleStop);
-    ///
-    recorder = new MediaRecorder(stream, { mineType: "video/webm" });
+    recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
     recorder.ondataavailable = (event) => {
         videoFile = URL.createObjectURL(event.data);
         video.srcObject = null;
         video.src = videoFile;
         video.loop = true;
         video.play();
+        actionBtn.innerText = "Download";
+        actionBtn.disabled = false;
+        actionBtn.addEventListener("click", handleDownload);
     };
     recorder.start();
+    setTimeout(() => {
+        recorder.stop();
+    }, 5000);
 };
 
 const init = async () => {
     stream = await navigator.mediaDevices.getUserMedia({
         audio: false,
-        video: { width: 200, height: 100 },
+        video: {
+            width: 200,
+            height: 100,
+        },
     });
     video.srcObject = stream;
     video.play();
