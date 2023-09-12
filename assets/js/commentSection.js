@@ -15,7 +15,7 @@
   \*****************************************/
 /***/ (() => {
 
-eval("const videoContainer = document.getElementById(\"videoContainer\");\nconst form = document.getElementById(\"commentForm\");\nconst textarea = form.querySelector(\"textarea\");\nconst btn = form.querySelector(\"button\");\nconst handleSubmit = event => {\n  event.preventDefault();\n  const text = textarea.value;\n  const video = videoContainer.dataset.id;\n};\nform.addEventListener(\"submit\", handleSubmit);\n\n//# sourceURL=webpack://wetube/./src/client/js/commentSection.js?");
+eval("const videoContainer = document.getElementById(\"videoContainer\");\nconst form = document.getElementById(\"commentForm\");\nconst handleSubmit = event => {\n  event.preventDefault();\n  const textarea = form.querySelector(\"textarea\");\n  const text = textarea.value;\n  const videoId = videoContainer.dataset.id;\n  fetch(`/api/videos/${videoId}/comment`, {\n    method: \"POST\",\n    body: {\n      text\n    }\n  });\n};\nif (form) {\n  form.addEventListener(\"submit\", handleSubmit);\n}\n\n//# sourceURL=webpack://wetube/./src/client/js/commentSection.js?");
 
 /***/ })
 
