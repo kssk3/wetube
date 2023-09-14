@@ -7,6 +7,8 @@
         "url": "git+https://github.com/kssk3/wetube.git"
     },
     "scripts": {
+        "start": "node build/init.js",
+        "build:server": "babel src -d build",
         "dev:server": "nodemon",
         "dev:assets": "webpack"
     },
@@ -33,7 +35,8 @@
         "regenerator-runtime": "^0.14.0"
     },
     "devDependencies": {
-        "@babel/core": "^7.21.8",
+        "@babel/cli": "^7.22.15",
+        "@babel/core": "^7.22.17",
         "@babel/node": "^7.20.7",
         "@babel/preset-env": "^7.21.5",
         "babel-loader": "^9.1.3",
