@@ -1,3 +1,4 @@
+import "regenerator-runtime";
 import "dotenv/config";
 // require("dotenv").config();를 import 방식으로 변경할 경우 코드
 import "./db";
